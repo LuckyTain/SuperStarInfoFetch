@@ -30,7 +30,7 @@ class SuperStar:
         self.arg_list_score_expired=['已过期']
         self.arg_list_score_skipByName = ['组']
         self.arg_list_timeRestriction=[time.strftime("%Y",time.localtime())]
-        self.pingAddressList=[self.__loginurl, self.__myspaceurl]
+        self.pingAddressList=["passport2.chaoxing.com", 'i.chaoxing.com']
         self.__courseurls = []
         self.__urlObtained=0
         self.__sessionRefreshThreshold=32
@@ -41,18 +41,19 @@ class SuperStar:
         results=[]
         for add in self.pingAddressList:
             results.append(ping(add))
-        if all(result==None for result in results):
+        if all(result==False for result in results):
             raise Exception('No Internet connection')
-        elif any(result>2 for result in results):
+        elif any(result>0.1 for result in results):
             print('Bad network connection, could take some time')
             return True
         else:
             return True
 
     def __logIn(self):
-        self.__s=requests.session()
-        self.__s.post(self.__loginurl, headers=self.__headers, data=self.__data)
-        time.sleep(self.__pauseTime)
+        if (self.__networkTest() == True):
+            self.__s=requests.session()
+            self.__s.post(self.__loginurl, headers=self.__headers, data=self.__data)
+            time.sleep(self.__pauseTime)
 
     def __getCoursesPage(self):
         space = self.__s.get(self.__myspaceurl, headers=self.__headers)
