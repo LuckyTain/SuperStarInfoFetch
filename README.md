@@ -1,6 +1,9 @@
 # SuperStarInfoFetch
  超星学习通作业考试获取
 
+# SuperStar
+以手机号（账号）和密码来实例化类。
+
 # getCourseFullName
 输入课程名关键字，返回匹配到的第一个课程全名。大小写不敏感。
 
