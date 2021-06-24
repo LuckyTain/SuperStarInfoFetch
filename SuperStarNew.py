@@ -63,9 +63,10 @@ class SuperStar:
             space = self.__s.get(self.__myspaceurl, headers=self.__headers)
             self.__urlObtained += 1
             space = bs(space.text, "html.parser")
+
         span = re.search(r",'(.*?)'",
-                         space.find('span', title="课程").parent.attrs['onclick']).span()
-        return(space.find('span', title="课程").parent.attrs['onclick'][
+                         space.find("h5",title="课程").parent.attrs['onclick']).span()
+        return(space.find("h5",title="课程").parent.attrs['onclick'][
                      span[0] + 2:span[1] - 1])
 
     def __getCourseUrl(self,courseName):
