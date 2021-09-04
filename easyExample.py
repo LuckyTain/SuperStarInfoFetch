@@ -8,4 +8,4 @@ count=input('本学期课程数')
 ss=SuperStar(phone,pw)
 
 #打印查询的信息
-print(ss.getAllTasks(count))
+print(ss.get_all_courses_info(count))
