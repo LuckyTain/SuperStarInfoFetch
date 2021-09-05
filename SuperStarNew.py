@@ -332,6 +332,21 @@ class SuperStar:
             elif status == '已过期':
                 return 'exam_look_url'
 
+    def __task_is_valid(self,task_soup):
+        try:
+            invalid = task_soup.find('div', class_=re.compile('icon-.+-g',re.I)).parent
+            return False
+        except:
+            return True
+
+    def __task_is_exchanged(self,task_soup):
+        try:
+            exchange = task_soup.find(class_=re.compile('icon-hp',re.I)).parent
+            return True
+        except:
+            return False
+
+
     def __get_works_of_single_page(self, page_url, get_timestamp = True):
         '''
         Get the works from a single work list page.
@@ -354,26 +369,14 @@ class SuperStar:
             work_status = work.find('p',class_ = 'status').text.strip()
 
             # whether work is still valid
-            try:
-                valid_icon = work.find('div', class_='tag icon-zy')
-            except:
-                valid_icon = None
-            if valid_icon is not None:
-                valid = True
-            else:
-                valid = False
-
+            valid = self.__task_is_valid(work)
             if self.arg_bool_task_validity is not None:
                 if not valid == self.arg_bool_task_validity:
                     continue
 
             #whether is exchanged work
-            try:
-                exchange = work.find(class_ = 'tag icon-hp-gy')
-            except:
-                exchange = None
-            if exchange is not None:
-                work_type = 'exchange'
+            if self.__task_is_exchanged(work):
+                work_type = 'exchanged'
             else:
                 work_type = 'work'
 
@@ -446,15 +449,7 @@ class SuperStar:
             exam_status = exam.find('p', class_='status').text.strip()
 
             # whether work is still valid
-            try:
-                valid_icon = exam.find('div', class_='tag icon-exam')
-            except:
-                valid_icon = None
-            if valid_icon is not None:
-                valid = True
-            else:
-                valid = False
-
+            valid = self.__task_is_valid(exam)
             if self.arg_bool_task_validity is not None:
                 if not valid == self.arg_bool_task_validity:
                     continue
