@@ -666,6 +666,10 @@ class SuperStar:
             if any(arg in course_name for arg in self.arg_list_course_name) or any(arg in teacher_name for arg in self.arg_list_teacher_name):
                 continue
 
+            # 未开课课程没有课程连接
+            if course.find(class_='course-cover').a is None:
+                continue
+
             course_detail_page_url = course.find(class_='course-cover').a.attrs['href']
 
             url_list.append(course_detail_page_url)
