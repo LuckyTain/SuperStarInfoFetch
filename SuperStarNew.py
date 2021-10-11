@@ -315,6 +315,9 @@ class SuperStar:
 
     def __determine_task_base_url_type(self,task_soup):
         try:
+            # TODO: 未知问题
+            if task_soup.find(onclick=re.compile('.*')) is None:
+                return False
             task_info = task_soup.find(onclick = re.compile('.*')).attrs['onclick']
         except:
             task_info = task_soup.parent.find(onclick=re.compile('.*')).attrs['onclick']
