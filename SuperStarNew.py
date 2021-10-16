@@ -315,11 +315,11 @@ class SuperStar:
 
     def __determine_task_base_url_type(self,task_soup):
         try:
-            # TODO: 未知问题
-            if task_soup.find(onclick=re.compile('.*')) is None:
-                return False
             task_info = task_soup.find(onclick = re.compile('.*')).attrs['onclick']
         except:
+            # 未知原因某些课程会没有这个
+            if task_soup.parent.find(onclick=re.compile('.*')) is None:
+                return False
             task_info = task_soup.parent.find(onclick=re.compile('.*')).attrs['onclick']
         if re.compile('notallow',re.I).search(task_info):
             #not allowed to review
